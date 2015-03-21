@@ -1,0 +1,1 @@
+# This package adds mailer functionality in the meteor application
