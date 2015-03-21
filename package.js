@@ -18,11 +18,16 @@ Package.onUse(function(api) {
     api.use(['templating'], 'client');
     api.use('handlebars', 'client');
   api.use('underscore', 'client');
-  api.use(['gfk:mailgun-api'
+  api.use(['gfk:mailgun-api','summernote:summernote'
 ],both);
   
   api.addFiles('mailersinapp.js');
-  api.addFiles("server/mailerMethods.coffee")
+  api.addFiles("server/mailerMethods.coffee");
+    api.addFiles('clientTemplates/massmailer.css');
+
+    api.addFiles('clientTemplates/massMailer.html');
+    api.addFiles('clientTemplates/massMailer.coffee');
+
 });
 
 Package.onTest(function(api) {
