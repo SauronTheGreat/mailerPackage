@@ -2,7 +2,7 @@ Package.describe({
   name: 'rushabhhathi:mailersinapp',
   version: '0.0.2',
   // Brief, one-line summary of the package.
-  summary: 'Add mailer support using mailgun used currently in a private environment. System notifications supoort added',
+  summary: 'Add mailer support using mailgun used currently in a private environment.',
   // URL to the Git repository containing the source code for this package.
   git: 'https://github.com/SauronTheGreat/mailerPackage',
   // By default, Meteor will default to using README.md for documentation.
