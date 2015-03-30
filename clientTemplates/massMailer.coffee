@@ -1,4 +1,11 @@
 if Meteor.isClient
+  @markAllNotiRead = (uid)->
+    Meteor.users.update({_id:uid},{$set:{unreadNoti:0}})
+
+  UI.registerHelper "getUnreadNoti", ()->
+
+    Meteor.user().unreadNoti
+
 
   Template.massMailerForm.rendered = ->
     $("#emailBody"). summernote()
@@ -20,7 +27,39 @@ if Meteor.isClient
   Template.individualMailer.helpers
     userEmails:()->
       emails = []
-      console.log Meteor.users.find().fetch()
+
       for u in Meteor.users.find().fetch()
         emails.push {e:decodeEmail(u.personal_profile.email)}
       emails
+  Template.newNotification.rendered = ->
+    Session.set("uniKeyForNoti",this.data.ukey)
+  Template.newNotification.events
+    'click .create-notification':(e)->
+      notiMsg = $("#notificationMessage").val()
+      notifications.insert({message:notiMsg,createdAt:new Date().getTime(),active:true,uid:Session.get("uniKeyForNoti")})
+
+  Template.systemNotifications.rendered = ->
+    ukey = this.data.ukey
+    Meteor.subscribe('notifications',ukey)
+  Template.systemNotifications.helpers
+    notifications:()->
+      notifications.find().fetch()
+  Template.systemNotifications.events
+    'click .delete-notification':(e)->
+      notifications.remove({_id:this._id})
+    'click .deactivate-notification':(e)->
+      notifications.update({_id:this._id},{$set:{active:false}})
+    'click .activate-notification':(e)->
+      notifications.update({_id:this._id},{$set:{active:true}})
+
+
+  Template.plainNotificationList.rendered = ->
+
+      ukey = this.data.ukey
+      Meteor.subscribe('notifications',ukey)
+#      $('.list-group-item').splice(0,Meteor.user().unreadNoti).addClass('active')
+  Template.plainNotificationList.helpers
+    unreadnotifications:()->
+      _.sortBy(notifications.find().fetch(),'createdAt').reverse().splice(0,Meteor.user().unreadNoti)
+    readnotifications:()->
+      _.sortBy(notifications.find().fetch(),'createdAt').reverse().splice(Meteor.user().unreadNoti,notifications.find().fetch().length)

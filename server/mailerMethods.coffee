@@ -33,3 +33,6 @@ if Meteor.isServer
         i++
       sendEmails emailList, subject, body
       return
+  Meteor.publish('notifications',(pid)->
+    notifications.find({uid:pid})
+  )

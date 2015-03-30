@@ -19,3 +19,44 @@
 
     </form>
 </template>
+
+
+<template name="systemNotifications">
+
+
+    <ul id="tag-list" class="full-box">
+       {{#each notifications}}
+               <li>{{message}}
+                   <a href="#" class="btn btn-danger btn-xs pull-right delete-notification">Delete</a>
+                   {{#if active}}
+                   <a href="#" class="btn btn-xs btn-warning pull-right deactivate-notification">Deactivate</a>
+                       {{else}}
+                       <a href="#" class="btn btn-xs btn-success pull-right activate-notification">Activate</a>
+                       {{/if}}
+
+               </li>
+           {{/each}}
+    </ul>
+
+</template>
+
+<template name="newNotification">
+    <textarea class="form-control" id="notificationMessage" placeholder="Enter Notification Message" style="width:100%"></textarea>
+
+    <input type="submit" class='btn btn-success create-notification' value="Create Notification" style="margin-top:4%;width:50%">
+</template>
+
+
+<template name="plainNotificationList">
+
+
+        {{#each unreadnotifications}}
+            <a href="#" class="list-group-item active">{{message}}</a>
+        {{/each}}
+        {{#each readnotifications}}
+            <a href="#" class="list-group-item">{{message}}</a>
+        {{/each}}
+
+
+
+</template>
